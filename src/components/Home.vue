@@ -7,12 +7,13 @@
 						v-toolbar-side-icon
 						v-toolbar-title Github Users
 						v-spacer
-						v-btn(icon='')
-							v-icon search
+						v-layout
+							v-text-field(placeholder="Search Github Users")
+							v-btn(icon='')
+								v-icon search
 					v-list(two-line='')
 						template(v-for='(item, index) in items')
-							v-subheader
-							v-list-tile(:key='item.title', avatar='', @click='')
+							v-list-tile(:key='item.title', avatar='', @click='goUserDetail')
 								v-list-tile-avatar
 									img(:src='item.avatar')
 								v-list-tile-content
@@ -54,6 +55,11 @@
 						subtitle: "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos."
 					}
 				]
+			}
+		},
+		methods: {
+			goUserDetail() {
+				this.$router.push('detail')
 			}
 		}
 	}
