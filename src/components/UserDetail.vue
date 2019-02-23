@@ -2,7 +2,7 @@
     div
         v-layout(row='')
             v-flex(xs12='', sm6='', offset-sm3='')
-                v-card
+                v-card.card-container
                     v-toolbar(color='cyan', dark='')
                         v-icon(@click="back") arrow_back
                         span Users

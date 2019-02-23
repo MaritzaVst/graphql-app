@@ -1,7 +1,7 @@
 export const mutations = {
     setUsersList(state, data) {
-        state.usersList = data.data.users.usersList || 0
-        state.total = data.data.users.userCount || 0
+        state.usersList = data.data ? data.data.users.usersList : []
+        state.total = data.data ? data.data.users.userCount :  0
     },
 
     setRepositoriesList(state, data) {

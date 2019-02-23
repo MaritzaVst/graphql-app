@@ -21,5 +21,6 @@
 		-moz-osx-font-smoothing: grayscale
 		text-align: center
 		color: #2c3e50
-
+		.card-container 
+			min-height: calc(100vh - 50px)
 </style>
