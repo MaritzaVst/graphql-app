@@ -21,6 +21,7 @@
 						div.not-found(v-else)
 							p We couldn’t find any users matching "{{ search }}"
 							img(src="../assets/images/no-data.jpg")
+						loader(v-if="loading")
 
 </template>
 
@@ -34,7 +35,8 @@
 				title: "Github Users",
 				search: '',
 				itemsPerPage: 10,
-				dataExist: true
+				dataExist: true,
+				loading: false
 			}
 		},
 		methods: {
@@ -49,17 +51,23 @@
 		},
 		watch: {
 			async search(val) {
-				if(val.length >= 3) {
-					try {
-						await this.$store.dispatch('getUsers', {
-							name: String(val),
-							count: this.itemsPerPage 
-						})
-						this.dataExist = this.users.length
-					} catch(error) {
-						console.log(error)
-					}
+				if(!val.length) {
+					this.dataExist = true
+					this.$store.commit('setUsersList', [])
+					return
 				}
+				this.loading = true
+				try {
+					await this.$store.dispatch('getUsers', {
+						name: String(val),
+						count: this.itemsPerPage 
+					})
+					this.dataExist = Boolean(this.users.length)
+				} catch(error) {
+					console.log(error)
+				}
+				this.loading = false
+				
 			}
 		},
 		created() {
@@ -105,6 +113,7 @@
 		align-items: center
 		justify-content: center
 		overflow: auto
+		position: relative
 		.v-list 
 			align-self: flex-start
 			width: 100%

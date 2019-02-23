@@ -1,0 +1,141 @@
+.loader
+  background: rgba(255, 255, 255, 0.5)
+  position: absolute
+  height: 60px
+  width: 160px
+  margin: 0
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .loader__container 
+    position: relative
+.circles
+  left: -5px
+  top: 0
+  height: 60px
+  width: 180px
+  span
+    position: absolute
+    top: 15px
+    height: 10px
+    width: 10px
+    border-radius: 12px
+    background-color: #efefef
+    &.one
+      right: 80px
+    &.two
+      right: 40px
+    &.three
+      right: 0px
+  -webkit-animation: animcircles 0.5s infinite linear
+  animation: animcircles 0.5s infinite linear
+
+@-webkit-keyframes animcircles
+  0%
+    -webkit-transform: translate(0px, 0px)
+    transform: translate(0px, 0px)
+
+  100%
+    -webkit-transform: translate(-40px, 0px)
+    transform: translate(-40px, 0px)
+
+
+@keyframes animcircles
+  0%
+    -webkit-transform: translate(0px, 0px)
+    transform: translate(0px, 0px)
+
+  100%
+    -webkit-transform: translate(-40px, 0px)
+    transform: translate(-40px, 0px)
+
+
+.pacman
+  left: 0
+  top: 0
+  height: 40px
+  width: 40px
+  .eye
+    position: absolute
+    top: 10px
+    left: 30px
+    height: 7px
+    width: 7px
+    border-radius: 7px
+    background-color: #1c163a
+  span
+    position: absolute
+    top: 0
+    left: 0
+    height: 40px
+    width: 40px
+    &::before
+      content: ""
+      position: absolute
+      left: 0
+      height: 20px
+      width: 40px
+      background-color: #fffb16
+  .top::before
+    top: 0
+    border-radius: 40px 40px 0px 0px
+  .bottom::before
+    bottom: 0
+    border-radius: 0px 0px 40px 40px
+  .left::before
+    bottom: 0
+    height: 40px
+    width: 20px
+    border-radius: 40px 0px 0px 40px
+  .top
+    -webkit-animation: animtop 0.5s infinite
+    animation: animtop 0.5s infinite
+  .bottom
+    -webkit-animation: animbottom 0.5s infinite
+    animation: animbottom 0.5s infinite
+
+@-webkit-keyframes animtop
+  0%,
+  100%
+    -webkit-transform: rotate(0deg)
+    transform: rotate(0deg)
+
+  50%
+    -webkit-transform: rotate(-45deg)
+    transform: rotate(-45deg)
+
+
+@keyframes animtop
+  0%,
+  100%
+    -webkit-transform: rotate(0deg)
+    transform: rotate(0deg)
+
+  50%
+    -webkit-transform: rotate(-45deg)
+    transform: rotate(-45deg)
+
+
+@-webkit-keyframes animbottom
+  0%,
+  100%
+    -webkit-transform: rotate(0deg)
+    transform: rotate(0deg)
+
+  50%
+    -webkit-transform: rotate(45deg)
+    transform: rotate(45deg)
+
+
+@keyframes animbottom
+  0%,
+  100%
+    -webkit-transform: rotate(0deg)
+    transform: rotate(0deg)
+
+  50%
+    -webkit-transform: rotate(45deg)
+    transform: rotate(45deg)
