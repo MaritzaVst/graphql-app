@@ -1,8 +1,11 @@
 <template lang="pug">
 	#app
-		img(src="./assets/logo.png")
-		h1 {{ title }}
-		router-view
+		v-app 
+			v-content
+				v-container
+					img(src="./assets/logo.png")
+					h1 {{ title }}
+					router-view
 </template>
 
 <script>
