@@ -1,19 +1,7 @@
-import { POST_QUERY } from "@/graphql/data" 
-import { QUERY_USERS } from '@/graphql'
+import { QUERY_USERS, QUERY_REPOSITORIES } from '@/graphql'
 import graphqlClient from '../utils/graphql';
 
 export const actions = {
-    async getData({ commit }) {
-        const response = await graphqlClient.query({
-            query: POST_QUERY,
-			variables: {
-				"login": "MaritzaVst"
-			}
-        })
-        console.log(response)
-        commit('setData', response)
-    },
-
     async getUsers( {commit}, { name, count} ) {
         const response = await graphqlClient.query({
             query: QUERY_USERS,
@@ -23,5 +11,14 @@ export const actions = {
             }
         })
         commit('setUsersList', response)
+    },
+    async getRepositoriesList( { commit }, name ) {
+        const response = await graphqlClient.query({
+            query: QUERY_REPOSITORIES,
+            variables: {
+                name: name
+            }
+        })
+        commit('setRepositoriesList', response)
     }
 }

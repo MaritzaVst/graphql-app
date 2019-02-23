@@ -1,5 +1,6 @@
 export const state = () => ({
     data: [],
     usersList: [],
-    total: null
+    total: null,
+    repositoriesList: []
 })

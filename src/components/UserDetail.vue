@@ -5,23 +5,41 @@
                 v-card
                     v-toolbar(color='cyan', dark='')
                         v-icon(@click="back") arrow_back
-                        v-toolbar-title Detail
+                        span Users
+                        v-toolbar-title {{ name }}
                         v-spacer
                     v-card-text 
-                        p Description
+                        v-list(two-line='')
+                            template(v-for='(repo, i) in repositories')
+                                v-list-tile(:key='i', avatar='', @click='goUserDetail()')
+                                    v-list-tile-content
+                                        v-list-tile-title {{ repo.name }}
+                                        v-list-tile-sub-title {{ repo.description }}
 							
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
         name: "UserDetail",
+        data() {
+            return {
+                name: ''
+            }
+        },
         methods: {
             back() {
                 this.$router.push('/')
             }
         },
+        computed: {
+            ...mapState({
+                repositories: state => state.repositoriesList
+            })
+        },
         created() {
-            // this.dispatch('getUserInfo', this.$route.params.name)
+            this.name = this.$route.params.name
+            this.$store.dispatch('getRepositoriesList', this.name)
         }
     }
 </script>
