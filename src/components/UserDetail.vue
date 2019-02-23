@@ -19,6 +19,9 @@
             back() {
                 this.$router.push('/')
             }
+        },
+        created() {
+            // this.dispatch('getUserInfo', this.$route.params.name)
         }
     }
 </script>
