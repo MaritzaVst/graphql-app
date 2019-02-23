@@ -3,19 +3,12 @@
 		v-app 
 			v-content
 				v-container
-					img(src="./assets/logo.png")
-					h1 {{ title }}
 					router-view
 </template>
 
 <script>
 	export default {
-		name: 'App',
-		data() {
-			return {
-				title: "GraphQL App"
-			}
-		}
+		name: 'App'
 	}
 </script>
 
@@ -26,6 +19,5 @@
 		-moz-osx-font-smoothing: grayscale
 		text-align: center
 		color: #2c3e50
-		margin-top: 180px
 
 </style>
