@@ -8,7 +8,7 @@
                             v-icon(@click="back").back__icon arrow_back
                             span.back__title Users
                         v-toolbar-title {{ name }}
-                    v-card-text 
+                    v-card-text.list-container 
                         v-list(two-line='')
                             template(v-for='(repo, i) in repositories')
                                 v-list-tile(:key='i')
@@ -18,6 +18,7 @@
                                     .counter-block
                                         p PR count: {{ repo.pullRequests.totalCount }}
                                 v-divider
+                        loader(v-if="loading")
 							
 </template>
 
@@ -27,7 +28,8 @@
         name: "UserDetail",
         data() {
             return {
-                name: ''
+                name: '',
+				loading: false
             }
         },
         methods: {
@@ -40,9 +42,15 @@
                 repositories: state => state.repositoriesList
             })
         },
-        created() {
+        async created() {
             this.name = this.$route.params.name
-            this.$store.dispatch('getRepositoriesList', this.name)
+            this.loading = true
+            try {
+                await this.$store.dispatch('getRepositoriesList', this.name)
+            } catch(error) {
+                console.log(error)
+            }
+            this.loading = false
         }
     }
 </script>
@@ -64,5 +72,6 @@
         .counter-block 
             text-align: right
             width: 120px
+            min-width: 120px
             font-size: 13px    
 </style>

@@ -5,7 +5,7 @@ export const mutations = {
     },
 
     setRepositoriesList(state, data) {
-        let list = data.data.user.repositories.list
+        let list = data.data ? data.data.user.repositories.list : []
         state.repositoriesList = (Array.isArray(list) ? list : []).map(item => item.detail) || {}
     }
 }

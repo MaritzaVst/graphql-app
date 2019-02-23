@@ -69,9 +69,6 @@
 				this.loading = false
 				
 			}
-		},
-		created() {
-			
 		}
 	}
 </script>
@@ -106,16 +103,4 @@
 			width: 300px
 		p 
 			font-size: 16px
-
-	.list-container 
-		min-height: calc(100vh - 180px)
-		display: flex
-		align-items: center
-		justify-content: center
-		overflow: auto
-		position: relative
-		.v-list 
-			align-self: flex-start
-			width: 100%
-			padding-top: 0
 </style> 
