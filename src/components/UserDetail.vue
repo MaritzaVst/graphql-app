@@ -11,10 +11,12 @@
                     v-card-text 
                         v-list(two-line='')
                             template(v-for='(repo, i) in repositories')
-                                v-list-tile(:key='i', avatar='', @click='goUserDetail()')
+                                v-list-tile(:key='i')
                                     v-list-tile-content
                                         v-list-tile-title {{ repo.name }}
                                         v-list-tile-sub-title {{ repo.description }}
+                                    .counter-block
+                                        p PR count: {{ repo.pullRequests.totalCount }}
                                 v-divider
 							
 </template>
@@ -59,4 +61,8 @@
             .back__title 
                 font-size: 15px
                 padding-left: 5px
+        .counter-block 
+            text-align: right
+            width: 120px
+            font-size: 13px    
 </style>
