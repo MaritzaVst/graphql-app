@@ -22,6 +22,8 @@
 							p We couldn’t find any users matching "{{ search }}"
 							img(src="../assets/images/no-data.jpg")
 						loader(v-if="loading")
+					.text-xs-center.pagination-container(v-if="users.length")
+						v-pagination(v-model='page', :length='length', :total-visible='4' @previous="changePage(false)" @next="changePage(true)")
 
 </template>
 
@@ -36,18 +38,41 @@
 				search: '',
 				itemsPerPage: 10,
 				dataExist: true,
-				loading: false
+				loading: false,
+				page: 1
 			}
 		},
 		methods: {
 			goUserDetail(userName) {
 				this.$router.push(userName)
+			},
+			async changePage(val) {
+				console.log(val)
+				this.loading = true
+				try {
+					await this.$store.dispatch('getUsers', {
+						name: String(val),
+						count: this.itemsPerPage,
+						isNext: val
+					})
+					this.dataExist = Boolean(this.users.length)
+				} catch(error) {
+					console.log(error)
+				}
+				this.loading = false
 			}
 		},
 		computed: {
 			...mapState({
-				users: state => state.usersList
-			})
+				users: state => state.usersList,
+				totalPages: state => state.total,
+				startCursor: state => state.startCursor,
+				endCursor: state => state.endCursor,
+			}),
+			length() {
+				if(this.totalPages) return Math.ceil(this.totalPages / this.itemsPerPage)
+				else return 1
+			}
 		},
 		watch: {
 			async search(val) {
@@ -68,7 +93,20 @@
 				}
 				this.loading = false
 				
-			}
+			},
+			// async page(val) {
+			// 	this.loading = true
+			// 	try {
+			// 		await this.$store.dispatch('getUsers', {
+			// 			name: String(val),
+			// 			count: this.itemsPerPage,
+			// 			page: val
+			// 		})
+			// 	} catch(error) {
+			// 		console.log(error)
+			// 	}
+			// 	this.loading = false
+			// }
 		}
 	}
 </script>
