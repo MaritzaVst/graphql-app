@@ -29,8 +29,8 @@
 							p We couldn’t find any users matching "{{ search }}"
 							img(src="../assets/images/no-data.jpg" alt="No data image")
 						loader(v-if="loading")
-					//- .text-xs-center.pagination-container(v-if="users.length")
-					//- 	v-pagination(v-model='page', :length='length', :total-visible='4' @previous="changePage(false)" @next="changePage(true)")
+					.text-xs-center.pagination-container(v-if="users.length")
+						v-pagination(v-model='page', :length='length', :total-visible='4' @previous="changePage(false)" @next="changePage(true)")
 
 </template>
 
