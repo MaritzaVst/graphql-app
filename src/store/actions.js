@@ -1,5 +1,5 @@
 import { QUERY_USERS, QUERY_REPOSITORIES } from '@/graphql'
-import graphqlClient from '../utils/graphql';
+import { apolloClient } from '../utils/apollo';
 
 export const actions = {
     async getUsers( {commit, state}, { name, count, isNext} ) {
@@ -11,14 +11,14 @@ export const actions = {
             variables = { first: count, name: name }
         }
 
-        const response = await graphqlClient.query({
+        const response = await apolloClient.query({
             query: QUERY_USERS,
             variables: variables
         })
         commit('setUsersList', response)
     },
     async getRepositoriesList( { commit }, name ) {
-        const response = await graphqlClient.query({
+        const response = await apolloClient.query({
             query: QUERY_REPOSITORIES,
             variables: {
                 name: name

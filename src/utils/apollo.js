@@ -1,3 +1,5 @@
+import Vue from 'vue'
+import VueApollo from 'vue-apollo'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
@@ -20,7 +22,16 @@ return {
 
 const cache = new InMemoryCache()
 
-export default new ApolloClient({
+export const apolloClient = new ApolloClient({
     link: authLink.concat(httpLink),
     cache,
+    connectToDevTools: true
 })
+
+const apolloProvider = new VueApollo({
+    defaultClient: apolloClient
+})
+
+Vue.use(VueApollo) 
+
+export default apolloProvider
