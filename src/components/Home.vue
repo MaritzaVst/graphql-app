@@ -7,7 +7,7 @@
 						div
 							v-toolbar-title Github Users
 						v-layout.search-block
-							v-text-field(v-model="search" placeholder="Search Github Users" prepend-inner-icon="search")
+							v-text-field(v-model="search" @keyup.native="searchData" placeholder="Search Github Users" prepend-inner-icon="search")
 					v-card-text.list-container 
 						v-list(v-if="dataExist" two-line='')
 							template(v-for='(user, i) in users') 
@@ -42,8 +42,7 @@
 	export default {
 		name: 'Home',
 		components: {
-			Highlighter,
-			'no-ssr': NoSSR
+			Highlighter
 		},
 		data() {
 			return {
@@ -55,28 +54,36 @@
 				page: 1,
 				overWriteStyle: {
 					color: 'blue'
-				}
+				},
+				timeout: null
 			}
 		},
 		methods: {
 			goUserDetail(userName) {
 				this.$router.push(userName)
+			},
+			async searchData() {
+				if(!this.search.length) {
+					this.dataExist = true
+					this.$store.commit('setUsersList', [])
+					return
+				}
+				this.loading = true
+				
+				clearTimeout(this.timeout)
+				this.timeout = setTimeout( async () => {
+					try {
+						await this.$store.dispatch('getUsers', {
+							name: String(this.search),
+							count: this.itemsPerPage 
+						})
+						this.dataExist = Boolean(this.users.length)
+					} catch(error) {
+						console.log('error', error)
+					}
+					this.loading = false
+				}, 200)
 			}
-			// async changePage(val) {
-			// 	console.log(val)
-			// 	this.loading = true
-			// 	try {
-			// 		await this.$store.dispatch('getUsers', {
-			// 			name: String(val),
-			// 			count: this.itemsPerPage,
-			// 			isNext: val
-			// 		})
-			// 		this.dataExist = Boolean(this.users.length)
-			// 	} catch(error) {
-			// 		console.log(error)
-			// 	}
-			// 	this.loading = false
-			// }
 		},
 		computed: {
 			...mapState({
@@ -95,38 +102,7 @@
 			}
 		},
 		watch: {
-			async search(val) {
-				if(!val.length) {
-					this.dataExist = true
-					this.$store.commit('setUsersList', [])
-					return
-				}
-				this.loading = true
-				try {
-					await this.$store.dispatch('getUsers', {
-						name: String(val),
-						count: this.itemsPerPage 
-					})
-					this.dataExist = Boolean(this.users.length)
-				} catch(error) {
-					console.log('error', error)
-				}
-				this.loading = false
-				
-			}
-			// async page(val) {
-			// 	this.loading = true
-			// 	try {
-			// 		await this.$store.dispatch('getUsers', {
-			// 			name: String(val),
-			// 			count: this.itemsPerPage,
-			// 			page: val
-			// 		})
-			// 	} catch(error) {
-			// 		console.log(error)
-			// 	}
-			// 	this.loading = false
-			// }
+			
 		}
 	}
 </script>
