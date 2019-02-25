@@ -34,7 +34,12 @@
         },
         methods: {
             back() {
-                this.$router.push('/')
+                this.$router.push({
+                    path: '/',
+                    query: {
+                        search: this.$route.query.search
+                    }
+                })
             }
         },
         computed: {

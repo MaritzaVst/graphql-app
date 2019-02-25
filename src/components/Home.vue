@@ -60,21 +60,21 @@
 		},
 		methods: {
 			goUserDetail(userName) {
-				this.$router.push(userName)
+				this.$router.push({
+					path:`/${userName}`,
+					query: {
+						search: this.search
+					}
+				})
 			},
-			async searchData() {
-				if(!this.search.length) {
-					this.dataExist = true
-					this.$store.commit('setUsersList', [])
-					return
-				}
+			getUsers(keyword) {
 				this.loading = true
 				
 				clearTimeout(this.timeout)
 				this.timeout = setTimeout( async () => {
 					try {
 						await this.$store.dispatch('getUsers', {
-							name: String(this.search),
+							name: String(keyword),
 							count: this.itemsPerPage 
 						})
 						this.dataExist = Boolean(this.users.length)
@@ -83,7 +83,15 @@
 					}
 					this.loading = false
 				}, 200)
-			}
+			},
+			searchData() {
+				if(!this.search.length) {
+					this.dataExist = true
+					this.$store.commit('setUsersList', [])
+					return
+				}
+				this.getUsers(this.search)
+			},
 		},
 		computed: {
 			...mapState({
@@ -102,7 +110,20 @@
 			}
 		},
 		watch: {
-			
+			search() {
+				this.$router.push({
+					query: {
+						search: this.search
+					}
+				})
+			}
+		},
+		created() {
+			const keyword = this.$route.query.search
+			if(keyword) {
+				this.getUsers(keyword)
+				this.search = keyword
+			}
 		}
 	}
 </script>
@@ -110,14 +131,14 @@
 <style lang="sass">
 	.card__header
 		.v-toolbar__content
-			height: 130px !important
-			flex-direction: column;
+			height: 160px !important
+			flex-direction: column
 			padding: 30px 30px 20px
-			align-items: baseline;
-			display: flex;
+			align-items: baseline
+			display: flex
 		.v-toolbar__title
-			font-size: 24px;
-			font-weight: 600;
+			font-size: 28px
+			font-weight: 600
 		
 	.search-block
 		align-items: center

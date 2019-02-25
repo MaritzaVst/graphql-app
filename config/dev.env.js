@@ -23,5 +23,5 @@ module.exports = merge(prodEnv, {
 				loader: 'yaml-loader'
 			},
 		]
-	},
+	}
 })
