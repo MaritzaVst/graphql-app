@@ -3,7 +3,7 @@ import VueApollo from 'vue-apollo'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory'
 import { credentials } from '../../config/credentials'
 
 const httpLink = new HttpLink({
@@ -11,16 +11,27 @@ const httpLink = new HttpLink({
   })
   
 const authLink = setContext((_, { headers }) => {
-const token = credentials.token
-return {
-    headers: {
-    ...headers,
-    authorization: token ? `Bearer ${token}` : "",
+    const token = credentials.token
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : "",
+        }
     }
-}
 });
 
-const cache = new InMemoryCache()
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+    introspectionQueryResultData: {
+        __schema: {
+          types: []
+        }
+    },
+});
+
+const cache = new InMemoryCache({
+    dataIdFromObject: o => o.id,
+    fragmentMatcher,
+})
 
 export const apolloClient = new ApolloClient({
     link: authLink.concat(httpLink),
