@@ -10,38 +10,40 @@
 							v-text-field(v-model="search" placeholder="Search Github Users" prepend-inner-icon="search")
 					v-card-text.list-container 
 						v-list(v-if="dataExist" two-line='')
-							template(v-for='(user, i) in users')
+							template(v-for='(user, i) in users') 
 								v-list-tile(:key='i', avatar='', @click='goUserDetail(user.userName)').user
 									v-list-tile-avatar
 										img(v-if="user.avatarUrl" :src='user.avatarUrl' alt="User image")
 										img(v-else src='../assets/images/default-img.png' alt="User image")
 									v-list-tile-content
 										v-list-tile-title 
-											text-highlight(:queries="keyword") {{ user.name }}
+											Highlighter(class="my-highlight" :searchWords="keyword" :textToHighlight="user.userName || ''")
 											span.user__location(v-if="user.location")
 												| ,
 												v-icon place  
 												|  {{ user.location }}
 										v-list-tile-sub-title 
-											text-highlight(:queries="keyword") {{ user.userName }}
+											Highlighter(class="my-highlight" :searchWords="keyword" :textToHighlight="user.name || ''")
 								v-divider
 						div.not-found(v-else)
 							p We couldn’t find any users matching "{{ search }}"
 							img(src="../assets/images/no-data.jpg" alt="No data image")
 						loader(v-if="loading")
-					.text-xs-center.pagination-container(v-if="users.length")
-						v-pagination(v-model='page', :length='length', :total-visible='4' @previous="changePage(false)" @next="changePage(true)")
+					//- .text-xs-center.pagination-container(v-if="users.length")
+					//- 	v-pagination(v-model='page', :length='length', :total-visible='4' @previous="changePage(false)" @next="changePage(true)")
 
 </template>
 
 <script>
 	import { mapState } from 'vuex'
-	import TextHighlight from 'vue-text-highlight'
+	import Highlighter from 'vue-highlight-words'
+	import NoSSR from 'vue-no-ssr'
 
 	export default {
 		name: 'Home',
 		components: {
-			TextHighlight
+			Highlighter,
+			'no-ssr': NoSSR
 		},
 		data() {
 			return {
@@ -59,22 +61,22 @@
 		methods: {
 			goUserDetail(userName) {
 				this.$router.push(userName)
-			},
-			async changePage(val) {
-				console.log(val)
-				this.loading = true
-				try {
-					await this.$store.dispatch('getUsers', {
-						name: String(val),
-						count: this.itemsPerPage,
-						isNext: val
-					})
-					this.dataExist = Boolean(this.users.length)
-				} catch(error) {
-					console.log(error)
-				}
-				this.loading = false
 			}
+			// async changePage(val) {
+			// 	console.log(val)
+			// 	this.loading = true
+			// 	try {
+			// 		await this.$store.dispatch('getUsers', {
+			// 			name: String(val),
+			// 			count: this.itemsPerPage,
+			// 			isNext: val
+			// 		})
+			// 		this.dataExist = Boolean(this.users.length)
+			// 	} catch(error) {
+			// 		console.log(error)
+			// 	}
+			// 	this.loading = false
+			// }
 		},
 		computed: {
 			...mapState({
@@ -111,7 +113,7 @@
 				}
 				this.loading = false
 				
-			},
+			}
 			// async page(val) {
 			// 	this.loading = true
 			// 	try {
