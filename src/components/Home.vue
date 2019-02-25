@@ -16,12 +16,14 @@
 										img(v-if="user.avatarUrl" :src='user.avatarUrl' alt="User image")
 										img(v-else src='../assets/images/default-img.png' alt="User image")
 									v-list-tile-content
-										v-list-tile-title {{ user.name }}
+										v-list-tile-title 
+											text-highlight(:queries="keyword") {{ user.name }}
 											span.user__location(v-if="user.location")
 												| ,
 												v-icon place  
 												|  {{ user.location }}
-										v-list-tile-sub-title {{ user.userName }}
+										v-list-tile-sub-title 
+											text-highlight(:queries="keyword") {{ user.userName }}
 								v-divider
 						div.not-found(v-else)
 							p We couldn’t find any users matching "{{ search }}"
@@ -34,9 +36,13 @@
 
 <script>
 	import { mapState } from 'vuex'
+	import TextHighlight from 'vue-text-highlight'
 
 	export default {
 		name: 'Home',
+		components: {
+			TextHighlight
+		},
 		data() {
 			return {
 				title: "Github Users",
@@ -44,7 +50,10 @@
 				itemsPerPage: 10,
 				dataExist: true,
 				loading: false,
-				page: 1
+				page: 1,
+				overWriteStyle: {
+					color: 'blue'
+				}
 			}
 		},
 		methods: {
@@ -77,6 +86,10 @@
 			length() {
 				if(this.totalPages) return Math.ceil(this.totalPages / this.itemsPerPage)
 				else return 1
+			},
+			keyword() {
+				let search = this.search.trim()
+				return [ search ]
 			}
 		},
 		watch: {

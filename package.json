@@ -20,6 +20,7 @@
     "vue": "^2.5.2",
     "vue-apollo": "^3.0.0-beta.28",
     "vue-router": "^3.0.1",
+    "vue-text-highlight": "^2.0.2",
     "vuetify": "^1.5.2",
     "vuex": "^3.1.0"
   },
