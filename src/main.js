@@ -7,7 +7,6 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '../node_modules/vuetify/dist/vuetify.min.css'
 import './assets/sass/main.sass'
 import loader from './components/loader'
-import apolloProvider from './utils/apollo'
 import errorModal from '../src/components/modals/ErrorModal'
 
 Vue.config.productionTip = false
@@ -21,7 +20,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  apolloProvider,
   components: { App },
   template: '<App/>'
 })

@@ -17,11 +17,7 @@ module.exports = merge(prodEnv, {
 			{
 				test: /\.pug$/,
 				loader: 'pug-plain-loader'
-			},
-			{
-				test: /\.yaml$/,
-				loader: 'yaml-loader'
-			},
+			}
 		]
 	}
 })

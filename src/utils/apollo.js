@@ -1,5 +1,3 @@
-import Vue from 'vue'
-import VueApollo from 'vue-apollo'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { from } from 'apollo-link';
@@ -8,7 +6,6 @@ import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemo
 import { credentials } from '../../config/credentials'
 import { onError } from "apollo-link-error";
 import fetch from 'unfetch'
-import { gqlError } from '../errors'
 
 
 const httpLink = new HttpLink({
@@ -51,7 +48,7 @@ const error = onError(({ graphQLErrors, networkError, networkStatus }) => {
     }
 });
 
-export const apolloClient = new ApolloClient({
+const apolloClient = new ApolloClient({
     link: from ([
         error,
         authLink.concat(httpLink)
@@ -60,10 +57,4 @@ export const apolloClient = new ApolloClient({
     connectToDevTools: true
 })
 
-const apolloProvider = new VueApollo({
-    defaultClient: apolloClient
-})
-
-Vue.use(VueApollo) 
-
-export default apolloProvider
+export default apolloClient

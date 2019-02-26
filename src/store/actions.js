@@ -1,5 +1,5 @@
 import { QUERY_USERS, QUERY_REPOSITORIES } from '@/graphql'
-import { apolloClient } from '../utils/apollo';
+import apolloClient from '../utils/apollo';
 
 export const actions = {
     async getUsers( {commit, state}, { name, count, isNext} ) {
