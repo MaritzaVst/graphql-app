@@ -1,21 +1,21 @@
-# graphql-app
+# GITHUB APP
 
-> A Vue.js project
+RAVN Challenge
 
-## Build Setup
+**WebApp** built with Vue + Vuetify + GraphQL + Apollo Client. 
+**API** Github v4 Api
 
-``` bash
-# install dependencies
-npm install
+## 📝 Features
+- [x] SMS Verification
+- [x] Email Verification
+- [x] Change Password
+- [x] Change Email and Priority
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## ▶️ Running
+- Clone repo `git clone https://github.com/MaritzaVst/graphql-app.git`
+- Install NPM modules `npm install`
+- Create `credentials.js` file in the directory `config` and write: 
+    `export const credentials = {
+        uri: 'https://api.github.com/graphql',
+        token: [TOKEN]
+    }`
