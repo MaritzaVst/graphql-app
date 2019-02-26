@@ -9,7 +9,7 @@
                             span.back__title Users
                         v-toolbar-title {{ name }}
                     v-card-text.list-container 
-                        v-list(two-line='')
+                        v-list(two-line='' v-if="!loading && repositoriesExist")
                             template(v-for='(repo, i) in repositories')
                                 v-list-tile(:key='i')
                                     v-list-tile-content
@@ -18,6 +18,9 @@
                                     .counter-block
                                         p PR count: {{ repo.pullRequests.totalCount }}
                                 v-divider
+                        div.no-repositories(v-if="!loading && !repositoriesExist")
+                            p {{ noRepositoriesMessage }}
+                            img(src="../assets/images/no-repositories.png")
                         loader(v-if="loading")
 							
 </template>
@@ -29,7 +32,8 @@
         data() {
             return {
                 name: '',
-				loading: false
+                loading: false,
+                noRepositoriesMessage: "The user doesn't have repositories"
             }
         },
         methods: {
@@ -44,8 +48,11 @@
         },
         computed: {
             ...mapState({
-                repositories: state => state.repositoriesList
-            })
+                repositories: state => state.repositoriesList 
+            }),
+            repositoriesExist() {
+                return this.repositories ? Boolean(this.repositories.length) : false
+            }
         },
         async created() {
             this.name = this.$route.params.name
@@ -79,4 +86,7 @@
             width: 120px
             min-width: 120px
             font-size: 13px    
+        .no-repositories
+            img 
+                width: 200px
 </style>

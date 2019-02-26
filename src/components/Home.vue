@@ -9,7 +9,7 @@
 						v-layout.search-block
 							v-text-field(v-model="search" @keyup.native="searchData" placeholder="Search Github Users" prepend-inner-icon="search")
 					v-card-text.list-container 
-						v-list(v-if="dataExist" two-line='')
+						v-list(v-if="!loading & dataExist" two-line='')
 							template(v-for='(user, i) in users') 
 								v-list-tile(:key='i', avatar='', @click='goUserDetail(user.userName)').user
 									v-list-tile-avatar
@@ -25,12 +25,16 @@
 										v-list-tile-sub-title 
 											Highlighter(class="my-highlight" :searchWords="keyword" :textToHighlight="user.name || ''")
 								v-divider
-						div.not-found(v-else)
-							p We couldn’t find any users matching "{{ search }}"
+						div.not-found(v-if="showNotFound")
+							p We couldn’t find any users matching 
+								br
+								| "{{ search }}"
 							img(src="../assets/images/no-data.jpg" alt="No data image")
 						loader(v-if="loading")
 					.text-xs-center.pagination-container(v-if="users.length")
 						v-pagination(v-model='page', :length='length', :total-visible='4' @previous="changePage(false)" @next="changePage(true)")
+
+		errorModal(ref="errorModal")
 
 </template>
 
@@ -55,7 +59,8 @@
 				overWriteStyle: {
 					color: 'blue'
 				},
-				timeout: null
+				timeout: null,
+				errorMessages: ''
 			}
 		},
 		methods: {
@@ -74,12 +79,12 @@
 				this.timeout = setTimeout( async () => {
 					try {
 						await this.$store.dispatch('getUsers', {
-							name: String(keyword),
+							name: String(this.search),
 							count: this.itemsPerPage 
 						})
 						this.dataExist = Boolean(this.users.length)
 					} catch(error) {
-						console.log('error', error)
+						this.$refs.errorModal.open(error)
 					}
 					this.loading = false
 				}, 200)
@@ -107,6 +112,9 @@
 			keyword() {
 				let search = this.search.trim()
 				return [ search ]
+			},
+			showNotFound() {
+				return Boolean(this.search) && !this.loading & !this.dataExist
 			}
 		},
 		watch: {
@@ -131,21 +139,36 @@
 <style lang="sass">
 	.card__header
 		.v-toolbar__content
-			height: 160px !important
+			height: 155px !important
 			flex-direction: column
-			padding: 30px 30px 20px
+			padding: 30px
 			align-items: baseline
 			display: flex
 		.v-toolbar__title
-			font-size: 28px
+			font-size: 30px
 			font-weight: 600
+			margin-top: 25px
 		
-	.search-block
+	.search-block 
 		align-items: center
 		width: 100%
 		padding: 0
 		.v-input__slot
 			margin-bottom: 0
+			border: 1px solid white
+			border-radius: 10px
+			padding: 0 5px
+			background: #00000008 
+			&:before,
+			&:after
+				display: none
+			.v-icon 
+				font-size: 17px
+		&.v-input--is-focused
+			.v-input__slot
+				background: #000000 !important
+		.v-text-field__details
+			display: none
 		input 
 			font-size: 14px
 	.search-block__btn 
@@ -155,9 +178,9 @@
 		padding-top: 40px
 		padding-bottom: 40px
 		img 
-			width: 300px
+			width: 260px
 		p 
-			font-size: 16px
+			font-size: 14px
 
 	.user__location
 		i.v-icon

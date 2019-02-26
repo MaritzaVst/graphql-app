@@ -8,11 +8,14 @@ import '../node_modules/vuetify/dist/vuetify.min.css'
 import './assets/sass/main.sass'
 import loader from './components/loader'
 import apolloProvider from './utils/apollo'
+import errorModal from '../src/components/modals/ErrorModal'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.component('loader', loader)
+
+Vue.component('ErrorModal', errorModal)
 
 new Vue({
   el: '#app',
