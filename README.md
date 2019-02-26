@@ -1,6 +1,4 @@
-# GITHUB APP
-
-RAVN Challenge
+# Ravn GraphQL Code Challenge
 
 **WebApp** built with Vue + Vuetify + GraphQL + Apollo Client. 
 **API** Github v4 Api
@@ -14,8 +12,8 @@ RAVN Challenge
 ## ▶️ Running
 - Clone repo `git clone https://github.com/MaritzaVst/graphql-app.git`
 - Install NPM modules `npm install`
-- Create `credentials.js` file in the directory `config` and write: 
+- Create `credentials.js` file in the directory `config` and write inside:
     `export const credentials = {
         uri: 'https://api.github.com/graphql',
-        token: [TOKEN]
+        token: [GITHUB_TOKEN]
     }`
